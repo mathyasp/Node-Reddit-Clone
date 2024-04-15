@@ -27,4 +27,14 @@ module.exports = (app) => {
 			res.status(500).send('Error saving post');
 		}
 	});
+
+  // SHOW
+  app.get('/posts/:id', async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id).lean();
+      res.render('posts-show', { post });
+    } catch (error) {
+      console.error('Error getting post:', error);
+    }
+  });
 };
