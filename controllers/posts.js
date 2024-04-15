@@ -37,4 +37,15 @@ module.exports = (app) => {
       console.error('Error getting post:', error);
     }
   });
+
+  // SUBREDDIT
+  app.get('/n/:subreddit', async (req, res) => {
+    try {
+      const posts = await Post.find({ subreddit: req.params.subreddit }).lean();
+      res.render('posts-index', { posts });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 };
+
