@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User = require('../models/user');
 
 module.exports = (app) => {
   // INDEX
@@ -39,9 +40,12 @@ module.exports = (app) => {
 
   // SHOW
   app.get('/posts/:id', async (req, res) => {
+    const currentUser = req.user;
     try {
-      const currentUser = req.user;
-      const post = await Post.findById(req.params.id).lean().populate('comments').populate('author');
+      const post = await Post.findById(req.params.id)
+        .lean()
+        .populate({ path:'comments', populate: { path: 'author' } })
+        .populate('author');
       res.render('posts-show', { post, currentUser });
     } catch (error) {
       console.error('Error getting post:', error);
@@ -50,9 +54,10 @@ module.exports = (app) => {
 
   // SUBREDDIT
   app.get('/n/:subreddit', async (req, res) => {
+    const currentUser = req.user;
+    const { subreddit } = req.params;
     try {
-      const currentUser = req.user;
-      const posts = await Post.find({ subreddit: req.params.subreddit }).lean().populate('author');
+      const posts = await Post.find({ subreddit }).lean().populate('author');
       res.render('posts-index', { posts, currentUser });
     } catch (error) {
       console.log(error);

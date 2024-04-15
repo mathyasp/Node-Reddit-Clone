@@ -1,15 +1,15 @@
-const cookieParser = require('cookie-parser');
 const express = require('express');
 const { engine } = require('express-handlebars');
+const cookieParser = require('cookie-parser');
 const checkAuth = require('./middleware/checkAuth');
 require('./data/reddit-db');
 require('dotenv').config();
 
 const app = express();
 
-app.use(cookieParser());
 app.engine('handlebars', engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
