@@ -13,15 +13,20 @@
     </button>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a>
-        </li>
+        {{#if currentUser}}
+          <li class="nav-item">
+            <a href="/posts/new" class="btn btn-primary navbar-btn">New Post</a>
+          </li>
+        {{/if}}
       </ul>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li class="nav-item"><a class='nav-link' href="/logout">Logout</a></li>
-      <li class="nav-item"><a class='nav-link' href="/login">Login</a></li>
-      <li class="nav-item"><a class='nav-link' href="/sign-up">Sign Up</a></li>
+      {{#if currentUser}}
+        <li class="nav-item"><a class='nav-link' href="/logout">Logout</a></li>
+      {{else}}
+        <li class="nav-item"><a class='nav-link' href="/login">Login</a></li>
+        <li class="nav-item"><a class='nav-link' href="/sign-up">Sign Up</a></li>
+      {{/if}}
     </ul>
   </div>
 </nav>

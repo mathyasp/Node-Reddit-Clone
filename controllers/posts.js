@@ -4,8 +4,9 @@ module.exports = (app) => {
   // INDEX
   app.get('/', async (req, res) => {
     try {
+      const currentUser = req.user;
       const posts = await Post.find({}).lean();
-      res.render('posts-index', { posts });
+      res.render('posts-index', { posts, currentUser });
     } catch (err) {
       console.log(err.message);
     }
@@ -19,9 +20,13 @@ module.exports = (app) => {
   // CREATE
   app.post('/posts/new', async (req, res) => {
 		try {
-			const post = new Post(req.body);
-			await post.save();
-			res.redirect('/');
+      if (req.user) {
+        const post = new Post(req.body);
+        await post.save();
+        res.redirect('/');
+      } else {
+        return res.status(401);
+      }
 		} catch (error) {
 			console.error('Error saving post:', error);
 			res.status(500).send('Error saving post');
