@@ -10,6 +10,7 @@ const app = express();
 app.engine('handlebars', engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(cookieParser());
+app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,6 +19,7 @@ app.use(checkAuth);
 require('./controllers/posts')(app);
 require('./controllers/comments.js')(app);
 require('./controllers/auth.js')(app);
+require('./controllers/replies.js')(app);
 
 app.listen(3000);
 
