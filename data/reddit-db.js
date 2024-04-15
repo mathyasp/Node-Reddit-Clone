@@ -5,7 +5,7 @@ assert = require('assert');
 const url = 'mongodb://localhost/reddit-db';
 
 mongoose
-  .connect(url, { useNewUrlParser: true })
+  .connect(url)
   .then(() => {
     console.log('Connected successfully to database');
   })
