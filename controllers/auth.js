@@ -20,4 +20,10 @@ module.exports = (app) => {
       console.log(error.message);
     }
   });
+
+   // LOGOUT
+   app.get('/logout', (req, res) => {
+    res.clearCookie('nToken');
+    return res.redirect('/');
+  });
 };
