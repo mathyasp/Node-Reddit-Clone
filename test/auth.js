@@ -22,18 +22,14 @@ describe('User', function () {
   });
 
   // signup
-  it('should be able to signup', function (done) {
-    User.findOneAndRemove({ username: 'testone' }, function() {
-      agent
-        .post('/sign-up')
-        .send({ username: 'testone', password: 'password' })
-        .end(function (err, res) {
-          console.log(res.body);
-          res.should.have.status(200);
-          agent.should.have.cookie('nToken');
-          done();
-        });
-    });
+  it('should be able to signup', async function () {
+    await User.findOneAndDelete({ username: 'testone' });
+    const res = await agent
+      .post('/sign-up')
+      .send({ username: 'testone', password: 'password' });
+    console.log(res.body);
+    res.should.have.status(200);
+    agent.should.have.cookie('nToken');
   });
 });
 
